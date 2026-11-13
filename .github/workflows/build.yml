@@ -1,0 +1,44 @@
+name: build-and-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build
+        env:
+          PUBLIC_ICP: ${{ secrets.PUBLIC_ICP }}
+        run: |
+          if [ -z "$PUBLIC_ICP" ]; then
+            echo "::error::PUBLIC_ICP must be set before deploying anvilkernel.com"
+            exit 1
+          fi
+          npm run build
+      - name: Deploy
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          rsync -az --delete --exclude=.well-known/ -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            dist/ "$DEPLOY_USER@$DEPLOY_HOST:/var/www/anvilkernel.com/"

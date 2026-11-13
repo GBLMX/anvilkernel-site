@@ -10,11 +10,17 @@ npm install
 PUBLIC_ICP='苏ICP备XXXXXXXXXX号' npm run build
 ```
 
-`PUBLIC_ICP` is optional at build time. When it is empty, the footer omits the
-filing link; set it to the exact number issued for this domain before enabling
-the vhost.
+`PUBLIC_ICP` is optional for a local build. When it is empty, the footer omits
+the filing link; set it to the exact number issued for this domain before
+enabling the vhost. The GitHub deploy workflow requires the same value in the
+`PUBLIC_ICP` repository secret and refuses to deploy without it.
 
-Output is `dist/`. Deploy with:
+Output is `dist/`. Pushing to `main` runs
+`.github/workflows/build.yml`. Required repository secrets are
+`PUBLIC_ICP`, `DEPLOY_SSH_KEY`, `DEPLOY_KNOWN_HOSTS`, `DEPLOY_HOST`, and
+`DEPLOY_USER`.
+
+Manual deploy:
 
 ```sh
 rsync -az --delete --exclude=.well-known/ dist/ aliyun:/var/www/anvilkernel.com/
