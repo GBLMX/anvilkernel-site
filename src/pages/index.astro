@@ -1,13 +1,13 @@
 ---
 const canonical = "https://anvilkernel.com/";
 const icp = import.meta.env.PUBLIC_ICP ?? "";
-const title = "Anvil — a terminal editor with a kernel you can build on";
+const title = "Anvil 开源终端编辑器";
 const description =
-  "Anvil is a Linux-first terminal editor: a selection-first Rust kernel, a per-session Go policy gateway, and an isolated plugin host.";
+  "Anvil 是 Linux 优先的终端编辑器：选择优先的 Rust 内核、按会话隔离的 Go 策略网关，以及独立插件宿主。";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -222,14 +222,14 @@ const description =
   <body>
     <header class="av-nav">
       <div class="av-wrap av-nav-inner">
-        <a class="av-brand" href="/" aria-label="Anvil home">
+        <a class="av-brand" href="/" aria-label="Anvil 首页">
           <img class="av-mark" src="/assets/anvil-icon.svg" width="30" height="30" alt="" />
-          <span>anvil <small>/ bionickernel</small></span>
+          <span>anvil <small>/ anvilkernel</small></span>
         </a>
-        <nav class="av-links" aria-label="Project navigation">
-          <a href="#architecture">Architecture</a>
-          <a href="#status">Status</a>
-          <a href="#boundary">Boundary</a>
+        <nav class="av-links" aria-label="项目导航">
+          <a href="#architecture">架构</a>
+          <a href="#status">状态</a>
+          <a href="#boundary">边界</a>
           <a class="av-github" href="https://github.com/GBLMX/Anvil" target="_blank" rel="noopener">GitHub ↗</a>
         </nav>
       </div>
@@ -239,20 +239,20 @@ const description =
       <section class="av-hero">
         <div class="av-wrap av-hero-grid">
           <div>
-            <p class="av-kicker">Pre-alpha · 0.6.0 base · 0.7.x modules in progress</p>
-            <h1>Anvil<span>.</span><br />Build on the editor.</h1>
+            <p class="av-kicker">Pre-alpha · 0.6.0 基线 · 0.7.x 模块开发中</p>
+            <h1>Anvil<span>.</span><br />在编辑器之上构建。</h1>
             <p class="av-lede">
-              A Linux-first terminal editor with a selection-first Rust kernel,
-              a per-session Go policy gateway, and an isolated Luau plugin
-              host. Pre-alpha, but the seams are deliberate.
+              Linux 优先的终端编辑器：选择优先的 Rust 内核、按会话隔离的
+              Go 策略网关，以及独立运行的 Luau 插件宿主。仍处于 pre-alpha，
+              但模块边界已经明确。
             </p>
             <div class="av-actions">
-              <a class="av-btn av-btn-primary" href="https://github.com/GBLMX/Anvil" target="_blank" rel="noopener">Read the source ↗</a>
-              <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture</a>
+              <a class="av-btn av-btn-primary" href="https://github.com/GBLMX/Anvil" target="_blank" rel="noopener">阅读源码 ↗</a>
+              <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/docs/architecture.md" target="_blank" rel="noopener">架构文档</a>
             </div>
           </div>
 
-          <div class="av-term" aria-label="Anvil terminal preview">
+          <div class="av-term" aria-label="Anvil 终端预览">
             <div class="av-term-bar" aria-hidden="true">
               <i></i><i></i><i></i>
               <span class="av-term-file">anvil 0.7.4 — modules</span>
@@ -264,19 +264,19 @@ const description =
               <div class="av-line"><s>04</s>  &#125;</div>
               <div class="av-line"> </div>
               <div class="av-line"><s>~</s> <em>├─ src/main.rs</em>        <s>rust</s></div>
-              <div class="av-line"><s>~</s> <em>└─ src/session.rs</em>     <s>modified</s></div>
-              <div class="av-status">NORMAL  <b>LSP</b> ready · split: 2 panes · gateway: per-session</div>
+              <div class="av-line"><s>~</s> <em>└─ src/session.rs</em>     <s>已修改</s></div>
+              <div class="av-status">NORMAL  <b>LSP</b> 就绪 · 分屏: 2 · 网关: 按会话</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="av-strip" aria-label="Project facts">
+      <section class="av-strip" aria-label="项目事实">
         <div class="av-wrap av-strip-inner">
-          <div class="av-strip-item"><small>Kernel</small><strong>selection-first <em>Rust</em></strong></div>
-          <div class="av-strip-item"><small>Policy</small><strong>per-session <em>Go</em> gateway</strong></div>
-          <div class="av-strip-item"><small>Plugins</small><strong>untrusted <em>host</em></strong></div>
-          <div class="av-strip-item"><small>License</small><strong>MIT / Apache-2.0</strong></div>
+          <div class="av-strip-item"><small>内核</small><strong>选择优先 <em>Rust</em></strong></div>
+          <div class="av-strip-item"><small>策略</small><strong>按会话 <em>Go</em> 网关</strong></div>
+          <div class="av-strip-item"><small>插件</small><strong>不可信 <em>宿主</em></strong></div>
+          <div class="av-strip-item"><small>许可</small><strong>MIT / Apache-2.0</strong></div>
         </div>
       </section>
 
@@ -284,33 +284,32 @@ const description =
         <div class="av-wrap">
           <div class="av-section-head">
             <div>
-              <p class="av-eyebrow">01 · Architecture</p>
-              <h2>Separate the editor<br />from the authority.</h2>
+              <p class="av-eyebrow">01 · 架构</p>
+              <h2>把编辑器<br />与权限分开。</h2>
             </div>
             <p>
-              The gateway is not the sandbox. The plugin host is. The editor owns
-              text and selection; the gateway owns system policy; neither owns
-              the other's state.
+              网关不是沙箱，插件宿主才是。编辑器负责文本与选择，网关负责
+              系统策略；两者都不持有对方的内部状态。
             </p>
           </div>
 
-          <div class="av-arch" aria-label="Anvil process architecture">
+          <div class="av-arch" aria-label="Anvil 进程架构">
             <div class="av-node">
-              <small>Trusted</small>
-              <strong>Rust editor</strong>
-              <p>PieceTable · selection · view · snapshots · commands</p>
+              <small>可信</small>
+              <strong>Rust 编辑器</strong>
+              <p>PieceTable · 选择 · 视图 · 快照 · 命令</p>
             </div>
             <div class="av-arrow" aria-hidden="true">→</div>
             <div class="av-node">
-              <small>Per session</small>
-              <strong>Go gateway</strong>
-              <p>openat2 · fetch policy · exec policy · capability token</p>
+              <small>按会话</small>
+              <strong>Go 网关</strong>
+              <p>openat2 · 抓取策略 · 执行策略 · 能力令牌</p>
             </div>
             <div class="av-arrow" aria-hidden="true">→</div>
             <div class="av-node">
-              <small>Untrusted</small>
-              <strong>Plugin host</strong>
-              <p>Luau host · Landlock · seccomp · cgroup · editor RPC proxy</p>
+              <small>不可信</small>
+              <strong>插件宿主</strong>
+              <p>Luau 宿主 · Landlock · seccomp · cgroup · 编辑器 RPC 代理</p>
             </div>
           </div>
         </div>
@@ -320,40 +319,40 @@ const description =
         <div class="av-wrap">
           <div class="av-section-head">
             <div>
-              <p class="av-eyebrow">02 · The pieces</p>
-              <h2>An editor kernel<br />with fewer assumptions.</h2>
+              <p class="av-eyebrow">02 · 组成</p>
+              <h2>一个更少假设的<br />编辑器内核。</h2>
             </div>
           </div>
           <div class="av-cards">
             <article class="av-card">
               <span class="n">01</span>
-              <h3>Selection-first core</h3>
-              <p>Every action has an explicit target. Caret is an empty selection. Multi-cursor is not a separate mode.</p>
+              <h3>选择优先内核</h3>
+              <p>每个动作都有明确目标。光标是空选择，多光标不是独立模式。</p>
             </article>
             <article class="av-card">
               <span class="n">02</span>
-              <h3>Go gateway</h3>
-              <p><code>openat2</code> workspace resolution, DNS-pinned fetch, sandboxed exec, and per-session capability grants.</p>
+              <h3>Go 策略网关</h3>
+              <p><code>openat2</code> 工作区解析、DNS 固定抓取、沙箱执行，以及按会话授予能力。</p>
             </article>
             <article class="av-card">
               <span class="n">03</span>
-              <h3>Process isolation</h3>
-              <p>Luau runs in a separate host; activation is explicit. The editor RPC proxy is wired; dynamic command registration remains pending.</p>
+              <h3>进程隔离</h3>
+              <p>Luau 运行在独立宿主中，激活必须显式确认。编辑器 RPC 代理已接通。</p>
             </article>
             <article class="av-card">
               <span class="n">04</span>
-              <h3>LSP, not a monolith</h3>
-              <p>Diagnostics, completion, hover, definition, rename, actions, formatting, and symbols — as a replaceable layer.</p>
+              <h3>可替换的 LSP</h3>
+              <p>诊断、补全、悬停、定义、重命名、代码操作、格式化和符号，作为独立层接入。</p>
             </article>
             <article class="av-card">
               <span class="n">05</span>
-              <h3>Terminal native</h3>
-              <p>Ratatui/crossterm, vertical splits, fuzzy file finding, file tree, and dirty-only redraws.</p>
+              <h3>终端原生</h3>
+              <p>Ratatui/crossterm、垂直分屏、模糊文件查找、文件树和脏区重绘。</p>
             </article>
             <article class="av-card">
               <span class="n">06</span>
-              <h3>Distro boundary</h3>
-              <p>The standard edition is one target composition. Contract v1 and <code>anvil-distro-minimal</code> prove third-party composition without forking the kernel.</p>
+              <h3>发行版边界</h3>
+              <p>标准版只是其中一种组合；契约 v1 与 <code>anvil-distro-minimal</code> 证明第三方可以组合而不必分叉内核。</p>
             </article>
           </div>
         </div>
@@ -362,23 +361,22 @@ const description =
       <section class="av-section" id="status">
         <div class="av-wrap av-roadmap">
           <div>
-            <p class="av-eyebrow">03 · Current state</p>
-            <h2>Pre-alpha,<br />with explicit seams.</h2>
+            <p class="av-eyebrow">03 · 当前状态</p>
+            <h2>Pre-alpha，<br />边界已经明确。</h2>
             <p>
-              Anvil is not a drop-in Helix or Vim replacement yet. The kernel,
-              gateway, and sandbox are real; the standard-edition and third-party
-              distribution surface is still being extracted.
+              Anvil 还不是 Helix 或 Vim 的直接替代品。内核、网关和沙箱已经
+              落地；标准版与第三方发行版接口仍在抽取中。
             </p>
-            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap ↗</a>
+            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/ROADMAP.md" target="_blank" rel="noopener">路线图 ↗</a>
           </div>
           <ul class="av-list">
-            <li><small>NOW</small><span>Selection-first kernel, PieceTable, multi-selection, undo, snapshots <em>· shipped</em></span></li>
-            <li><small>NOW</small><span>Session extraction, command palette, notifications, LSP, tree watcher <em>· 0.5.0</em></span></li>
-            <li><small>NOW</small><span>Plugin API v1 frozen; HostSession editor RPC proxy wired <em>· 0.6.0</em></span></li>
-            <li><small>NOW</small><span>Module contract, Git, workspace index, compatibility gate <em>· 0.7.1–0.7.3</em></span></li>
-            <li><small>NOW</small><span>Desktop URL opener and LaTeX provider/highlighting <em>· 0.7.4</em></span></li>
-            <li><small>NEXT</small><span>Additional opt-in modules and 0.8 release planning <em>· active</em></span></li>
-            <li><small>LATER</small><span>Marketplace, release signing/provenance, collaboration surfaces <em>· 0.8+</em></span></li>
+            <li><small>现在</small><span>选择优先内核、PieceTable、多选、撤销、快照 <em>· 已发布</em></span></li>
+            <li><small>现在</small><span>会话抽取、命令面板、通知、LSP、文件树监听 <em>· 0.5.0</em></span></li>
+            <li><small>现在</small><span>插件 API v1 冻结；HostSession 编辑器 RPC 代理接通 <em>· 0.6.0</em></span></li>
+            <li><small>现在</small><span>模块契约、Git、工作区索引、兼容性门禁 <em>· 0.7.1–0.7.3</em></span></li>
+            <li><small>现在</small><span>桌面 URL 打开模块与 LaTeX 提供者/高亮 <em>· 0.7.4</em></span></li>
+            <li><small>下一步</small><span>更多可选模块与 0.8 发布规划 <em>· 进行中</em></span></li>
+            <li><small>之后</small><span>插件索引、发布签名/来源证明、协作界面 <em>· 0.8+</em></span></li>
           </ul>
         </div>
       </section>
@@ -387,19 +385,19 @@ const description =
         <div class="av-wrap">
           <div class="av-section-head">
             <div>
-              <p class="av-eyebrow">04 · Boundary</p>
-              <h2>No stable Rust ABI.<br />No fake zero trust.</h2>
+              <p class="av-eyebrow">04 · 边界</p>
+              <h2>没有稳定的 Rust ABI。<br />也不假装零信任。</h2>
             </div>
             <p>
-              Compiled Rust code in a distribution is trusted kernel code.
-              Luau runtime plugins are untrusted; the TS runtime is planned.
-              PGO/BOLT is an optional release step, not part of the interface.
+              发行版中编译进来的 Rust 代码属于可信内核代码。Luau 运行时插件
+              是不可信的；TS 运行时仍在计划中。PGO/BOLT 是可选发布步骤，
+              不属于接口。
             </p>
           </div>
           <div class="av-actions">
-            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/docs/adr/0013-kernel-distribution-boundary.md" target="_blank" rel="noopener">Kernel boundary ADR ↗</a>
-            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/SECURITY.md" target="_blank" rel="noopener">Security policy ↗</a>
-            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/GOVERNANCE.md" target="_blank" rel="noopener">Governance ↗</a>
+            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/docs/adr/0013-kernel-distribution-boundary.md" target="_blank" rel="noopener">内核边界 ADR ↗</a>
+            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/SECURITY.md" target="_blank" rel="noopener">安全策略 ↗</a>
+            <a class="av-btn" href="https://github.com/GBLMX/Anvil/blob/main/GOVERNANCE.md" target="_blank" rel="noopener">治理说明 ↗</a>
           </div>
         </div>
       </section>
@@ -407,7 +405,7 @@ const description =
 
     <footer class="av-footer">
       <div class="av-wrap av-footer-inner">
-        <span>Anvil · pre-alpha · 0.6.0 base · 0.7.4 in progress</span>
+        <span>Anvil · pre-alpha · 0.6.0 基线 · 0.7.4 开发中</span>
         <span><a href="https://anvilkernel.com/">anvilkernel.com</a>{icp && <> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{icp}</a></>} · <a href="https://github.com/GBLMX/Anvil" target="_blank" rel="noopener">GitHub</a></span>
       </div>
     </footer>
