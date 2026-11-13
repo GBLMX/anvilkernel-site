@@ -43,7 +43,14 @@ certbot certonly --webroot -w /var/www/anvilkernel.com \
   -d anvilkernel.com -d www.anvilkernel.com
 ```
 
-Then:
+Before enabling, validate both vhosts together with stub certificates:
+
+```sh
+nginx -t -c /tmp/nginx-combined.conf
+```
+
+The combined `bionickernel.conf` (`quic reuseport`) and
+`anvilkernel.conf` (`quic`) configuration passes this test. Then:
 
 ```sh
 ln -s /etc/nginx/sites-available/anvilkernel.conf \
