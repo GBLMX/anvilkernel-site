@@ -35,12 +35,15 @@ import { SITE } from "../data/site";
 
       <h2>2. 构建</h2>
       <p>在仓库根目录执行标准版构建：</p>
-      <pre class="av-code">git clone https://github.com/GBLMX/Anvil.git
+      <div class="av-code-wrap">
+        <button class="av-copy" type="button" data-copy="build-command">复制构建命令</button>
+        <pre class="av-code" id="build-command">git clone https://github.com/GBLMX/Anvil.git
 cd Anvil
 
 cargo build --release -p anvil-distro-standard -p anvil-ctl -p anvil-mcp -p anvil-plugin-host
 GOTOOLCHAIN=go1.26.11 go build -o target/release/anvil-gateway ./go/cmd/anvil-gateway
 GOTOOLCHAIN=go1.26.11 go build -o target/release/anvil-exec-runner ./go/cmd/anvil-exec-runner</pre>
+      </div>
       <p>
         默认组合是标准版 / Git-only。需要在本地启用全部官方模块和
         web/C/C++ 语法时，使用 <code>--features full</code>。
@@ -119,4 +122,32 @@ anvil --workspace "$PWD"</pre>
       </ul>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll("[data-copy]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const target = document.getElementById(button.dataset.copy);
+        if (!target) return;
+
+        const text = target.innerText.trim();
+        const original = button.textContent;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = "已复制";
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(target);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+          button.textContent = "已选择，按 Ctrl+C";
+        }
+
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1800);
+      });
+    });
+  </script>
 </BaseLayout>

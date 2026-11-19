@@ -26,22 +26,25 @@ import { SITE } from "../data/site";
         </div>
       </div>
 
-      <div class="av-term" aria-label="Anvil 终端预览">
-        <div class="av-term-bar" aria-hidden="true">
-          <i></i><i></i><i></i>
-          <span class="av-term-file">anvil {SITE.version} — modules</span>
-        </div>
-        <div class="av-term-body">
-          <div class="av-line"><s>01</s>  <b>fn</b> main() &#123;</div>
-          <div class="av-line"><s>02</s>      <b>let</b> kernel = <em>Anvil</em>::new();</div>
-          <div class="av-line"><s>03</s>      kernel.<b>open</b>(<u>"src/main.rs"</u>);</div>
-          <div class="av-line"><s>04</s>  &#125;</div>
-          <div class="av-line"> </div>
-          <div class="av-line"><s>~</s> <em>├─ src/main.rs</em>        <s>rust</s></div>
-          <div class="av-line"><s>~</s> <em>└─ src/session.rs</em>     <s>已修改</s></div>
-          <div class="av-status">NORMAL  <b>LSP</b> 就绪 · 分屏: 2 · 网关: 按会话</div>
-        </div>
-      </div>
+      <figure class="av-demo">
+        <video
+          controls
+          preload="none"
+          playsinline
+          poster="/assets/anvil-demo-poster.webp"
+          width="1200"
+          height="760"
+          aria-label="Anvil 终端演示：打开 Makefile、搜索、编辑并保存"
+        >
+          <source src="/assets/anvil-demo.webm" type="video/webm" />
+          <source src="/assets/anvil-demo.mp4" type="video/mp4" />
+          您的浏览器不支持视频播放。
+        </video>
+        <figcaption>
+          <span>真实终端演示 · 9 秒 · 点击播放</span>
+          <a href="/install">构建并试用 →</a>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -159,11 +162,56 @@ import { SITE } from "../data/site";
     </div>
   </section>
 
+  <section class="av-section" id="faq">
+    <div class="av-wrap">
+      <div class="av-section-head">
+        <div>
+          <p class="av-eyebrow">04 · 常见问题</p>
+          <h2>先回答<br />最常问的四个。</h2>
+        </div>
+        <p>更完整的版本、限制和插件状态在独立页面；这里只给出不绕弯的答案。</p>
+      </div>
+      <div class="av-faq">
+        <details>
+          <summary>Anvil 现在能用吗？</summary>
+          <p>
+            可以从源码构建，并在 Linux 上编辑、保存、搜索、使用 LSP 和文件树。
+            仍是 pre-alpha：没有官方二进制，接口可能变化。先看
+            <a href="/install">安装</a> 和 <a href="/releases">版本状态</a>。
+          </p>
+        </details>
+        <details>
+          <summary>它和 Vim / Helix 有什么区别？</summary>
+          <p>
+            它不是 Vim/Neovim 的兼容实现，也不是 Helix 的配置兼容层。Anvil 的
+            核心边界是选择优先内核、按会话隔离的 Go 策略网关，以及独立运行的
+            Luau 插件宿主；目标不是替代现有编辑器。
+          </p>
+        </details>
+        <details>
+          <summary>为什么没有插件市场？</summary>
+          <p>
+            当前只支持本地包安装和显式启用。签名索引、同意、撤销和来源证明
+            尚未完成，所以不做商店。当前支持范围见 <a href="/plugins">插件状态</a>。
+          </p>
+        </details>
+        <details>
+          <summary>为什么必须从源码构建？</summary>
+          <p>
+            还没有官方二进制或包管理器发布；签名、来源证明和安装布局的验证
+            尚未闭环。构建需要 Linux、Rust、Go 和合适的 Landlock 内核，步骤见
+            <a href="/install">安装</a>。
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="av-section" id="boundary">
     <div class="av-wrap">
       <div class="av-section-head">
         <div>
-          <p class="av-eyebrow">04 · 边界</p>
+          <p class="av-eyebrow">05 · 边界</p>
           <h2>没有稳定的 Rust ABI。<br />也不假装零信任。</h2>
         </div>
         <p>
