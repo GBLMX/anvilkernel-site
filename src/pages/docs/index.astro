@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CopyButton from "../../components/CopyButton.astro";
 import { SITE } from "../../data/site";
 ---
 
@@ -18,7 +19,7 @@ import { SITE } from "../../data/site";
       <div class="av-actions">
         <a class="av-btn av-btn-primary" href="/install">安装与构建</a>
         <a class="av-btn" href={SITE.repo} target="_blank" rel="noopener">打开仓库文档 ↗</a>
-        <a class="av-btn" href="/releases">版本状态</a>
+        <a class="av-btn" href="/releases">文档对应 Anvil {SITE.version} · 版本状态</a>
       </div>
     </header>
 
@@ -26,9 +27,12 @@ import { SITE } from "../../data/site";
       <article class="av-panel">
         <h2>快速开始</h2>
         <p>从源码构建，安装布局，运行 doctor，然后打开一个工作区。</p>
-        <pre class="av-code">anvil --version
+        <div class="av-code-wrap">
+          <CopyButton target="docs-quickstart" label="复制命令" />
+          <pre class="av-code" id="docs-quickstart">anvil --version
 anvil doctor --profile installed
 anvil --workspace "$PWD"</pre>
+        </div>
         <p><a href="/install">查看完整安装步骤 →</a></p>
       </article>
 
@@ -44,9 +48,12 @@ anvil --workspace "$PWD"</pre>
       <article class="av-panel">
         <h2>LSP 与语言工具</h2>
         <p>语言服务器不随 Anvil 分发。用只读命令检查当前机器。</p>
-        <pre class="av-code">anvil setup check
+        <div class="av-code-wrap">
+          <CopyButton target="docs-lsp" label="复制命令" />
+          <pre class="av-code" id="docs-lsp">anvil setup check
 anvil setup plan
 anvil setup apply</pre>
+        </div>
         <p>解析顺序先看 <code>ANVIL_LSP_*</code>、项目 <code>[lsp.commands]</code>，再看用户工具目录和 <code>PATH</code>。</p>
       </article>
 

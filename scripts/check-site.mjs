@@ -67,6 +67,35 @@ if ((home.match(/<details>/g) ?? []).length !== 4) errors.push("index.html: expe
 const install = readFileSync(join(dist, "install/index.html"), "utf8");
 if (!install.includes('data-copy="build-command"')) errors.push("install/index.html: missing build copy control");
 
+
+for (const file of html.filter((path) => relative(dist, path).startsWith("docs/"))) {
+	const name = relative(dist, file);
+	const text = readFileSync(file, "utf8");
+	const description = text.match(/<meta name="description" content="([^"]*)"/)?.[1]?.trim();
+
+	if (!description) errors.push(`${name}: empty meta description`);
+	if (!/<link rel="canonical" href="https:\/\/anvilkernel\.com\/[^"]+"/.test(text)) {
+		errors.push(`${name}: missing absolute canonical`);
+	}
+	for (const property of ["og:title", "og:description", "og:image"]) {
+		if (!text.includes(`property="${property}"`)) errors.push(`${name}: missing ${property}`);
+	}
+	if (!text.includes('name="twitter:card"')) errors.push(`${name}: missing twitter:card`);
+
+	for (const match of text.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)) {
+		const label = match[2].replace(/<[^>]*>/g, " ").replace(/&[^;]+;/g, " ").trim();
+		if (!label && !/\baria-label=/.test(match[1])) errors.push(`${name}: icon-only button lacks aria-label`);
+	}
+	for (const match of text.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)) {
+		if (!/\brel="[^"]*(?:prev|next)/.test(match[1])) continue;
+		const label = match[2].replace(/<[^>]*>/g, " ").replace(/&[^;]+;/g, " ").trim();
+		if (!label && !/\baria-label=/.test(match[1])) errors.push(`${name}: prev/next link lacks aria-label`);
+	}
+}
+
+const docs = readFileSync(join(dist, "docs/index.html"), "utf8");
+if (!docs.includes('data-copy="docs-quickstart"')) errors.push("docs/index.html: missing quickstart copy control");
+if (!docs.includes('data-copy="docs-lsp"')) errors.push("docs/index.html: missing LSP copy control");
 const notFound = readFileSync(join(dist, "404.html"), "utf8");
 if (!notFound.includes('name="robots" content="noindex"')) errors.push("404.html: missing noindex");
 
