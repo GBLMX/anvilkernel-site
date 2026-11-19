@@ -9,6 +9,9 @@ const required = [
 	"docs/index.html",
 	"releases/index.html",
 	"plugins/index.html",
+	"assets/anvil-demo-poster.webp",
+	"assets/anvil-demo.mp4",
+	"assets/anvil-demo.webm",
 	"404.html",
 	"robots.txt",
 	"sitemap-index.xml",
@@ -55,6 +58,14 @@ for (const file of html) {
 		}
 	}
 }
+
+const home = readFileSync(join(dist, "index.html"), "utf8");
+if (!home.includes('preload="none"')) errors.push("index.html: demo video must not preload");
+if (!home.includes("anvil-demo-poster.webp")) errors.push("index.html: missing demo poster");
+if ((home.match(/<details>/g) ?? []).length !== 4) errors.push("index.html: expected four FAQ entries");
+
+const install = readFileSync(join(dist, "install/index.html"), "utf8");
+if (!install.includes('data-copy="build-command"')) errors.push("install/index.html: missing build copy control");
 
 const notFound = readFileSync(join(dist, "404.html"), "utf8");
 if (!notFound.includes('name="robots" content="noindex"')) errors.push("404.html: missing noindex");
