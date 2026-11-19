@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE } from "../../data/site";
+---
+
+<BaseLayout
+  title="文档"
+  description="Anvil 文档入口：快速开始、配置与键位、LSP、插件、架构和参考。"
+>
+  <div class="av-wrap av-page">
+    <header class="av-page-hero">
+      <p class="av-eyebrow">文档 · {SITE.phase}</p>
+      <h1>先读边界，<br />再读命令。</h1>
+      <p>
+        Anvil 仍处于 pre-alpha。这里提供入口和最短路径；完整设计记录、ADR 和
+        实现细节以仓库中的 Markdown 为准，不在站点复制第二份事实来源。
+      </p>
+      <div class="av-actions">
+        <a class="av-btn av-btn-primary" href="/install">安装与构建</a>
+        <a class="av-btn" href={SITE.repo} target="_blank" rel="noopener">打开仓库文档 ↗</a>
+        <a class="av-btn" href="/releases">版本状态</a>
+      </div>
+    </header>
+
+    <div class="av-page-grid">
+      <article class="av-panel">
+        <h2>快速开始</h2>
+        <p>从源码构建，安装布局，运行 doctor，然后打开一个工作区。</p>
+        <pre class="av-code">anvil --version
+anvil doctor --profile installed
+anvil --workspace "$PWD"</pre>
+        <p><a href="/install">查看完整安装步骤 →</a></p>
+      </article>
+
+      <article class="av-panel">
+        <h2>配置与键位</h2>
+        <p>设置来源、键位路由和 Space 前导键。不要同时维护两套键位约定。</p>
+        <ul class="av-link-list">
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/settings-sources.md" target="_blank" rel="noopener">设置来源 <small>CLI、环境变量、项目设置和用户设置</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/keymap.md" target="_blank" rel="noopener">键位 <small>前缀、上下文和路由</small></a></li>
+        </ul>
+      </article>
+
+      <article class="av-panel">
+        <h2>LSP 与语言工具</h2>
+        <p>语言服务器不随 Anvil 分发。用只读命令检查当前机器。</p>
+        <pre class="av-code">anvil setup check
+anvil setup plan
+anvil setup apply</pre>
+        <p>解析顺序先看 <code>ANVIL_LSP_*</code>、项目 <code>[lsp.commands]</code>，再看用户工具目录和 <code>PATH</code>。</p>
+      </article>
+
+      <article class="av-panel">
+        <h2>插件与信任</h2>
+        <p>当前只支持本地安装，市场未开放。先读威胁模型和沙箱能力，再安装任何插件。</p>
+        <ul class="av-link-list">
+          <li><a href="/plugins">插件当前状态 <small>本地安装、未开放市场和信任边界</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/threat-model.md" target="_blank" rel="noopener">威胁模型 <small>网关、插件宿主与本地控制 socket</small></a></li>
+        </ul>
+      </article>
+
+      <article class="av-panel">
+        <h2>架构与边界</h2>
+        <p>编辑器、网关和插件宿主不是同一个信任域。</p>
+        <ul class="av-link-list">
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/architecture.md" target="_blank" rel="noopener">架构 <small>进程、数据流和关键边界</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/adr/0013-kernel-distribution-boundary.md" target="_blank" rel="noopener">内核/发行版边界 ADR <small>哪些代码属于可信内核</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/module-compatibility.md" target="_blank" rel="noopener">模块兼容性 <small>契约范围和门禁</small></a></li>
+        </ul>
+      </article>
+
+      <article class="av-panel">
+        <h2>参考</h2>
+        <p>机器可读输出使用 schema 版本；脚本应解析 JSON，而不是抓取人类可读文本。</p>
+        <ul class="av-link-list">
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/api-surface.md" target="_blank" rel="noopener">API surface <small>Lua、JSON Schema、TypeScript 和命令</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/modules.md" target="_blank" rel="noopener">模块 <small>官方可选模块和组合方式</small></a></li>
+          <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/doctor.md" target="_blank" rel="noopener">Doctor 检查 <small>退出码、JSON 和降级行为</small></a></li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="av-note">
+      文档仍以仓库为准。若站点与仓库冲突，先修仓库，再从单一来源生成站点内容；
+      不要手工复制整份文档。
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../data/site";
+---
+
+<BaseLayout
+  title="插件"
+  description="Anvil 插件当前状态：本地安装可用，市场未开放，以及同意、沙箱和撤销边界。"
+>
+  <div class="av-wrap av-page">
+    <header class="av-page-hero">
+      <p class="av-eyebrow">插件 · {SITE.phase}</p>
+      <h1>本地可用。<br />市场未开放。</h1>
+      <p>
+        当前没有插件商店、下载量、评分或一键安装。只有本地包安装和显式启用。
+        没有 signed index、consent、revocation 和 provenance，商店就只是一个
+        不安全的下载器。
+      </p>
+      <div class="av-badges">
+        <span class="av-badge">本地安装</span>
+        <span class="av-badge">市场未开放</span>
+        <span class="av-badge">Luau 宿主</span>
+        <span class="av-badge">独立进程</span>
+      </div>
+    </header>
+
+    <div class="av-prose">
+      <h2>当前可用</h2>
+      <p>从本地文件或 URL 安装，然后显式启用。插件包不会被自动激活。</p>
+      <pre class="av-code">:pkg install-file /path/to/plugin
+:pkg install https://example.invalid/plugin
+:pkg list
+:pkg enable &lt;id&gt;</pre>
+      <p>
+        官方插件源随发布布局分发到 <code>share/anvil/official/plugins</code>。如果存在已签名包，
+        安装器会运行 <code>anvil-gateway -install-bundled</code>；随附源只是只读回退，
+        同一 ID 的受管包优先。
+      </p>
+
+      <h2>为什么还没有商店</h2>
+      <p>一个安全的插件市场至少需要以下链路同时成立：</p>
+      <ul>
+        <li><strong>签名索引：</strong>包 ID、版本、摘要和发布者身份可验证。</li>
+        <li><strong>同意：</strong>用户看到权限、文件和进程边界后再授权。</li>
+        <li><strong>撤销：</strong>发布者或审核方能撤销恶意版本，客户端能失效缓存。</li>
+        <li><strong>来源证明：</strong>能追溯构建输入和发布流程。</li>
+      </ul>
+      <p>
+        这些条件尚未完成。因此当前不做商品列表、下载量、评分或安装按钮。
+        市场 UI 会等信任链完成后再做，而不是先做商店再补安全。
+      </p>
+
+      <h2>信任模型</h2>
+      <table class="av-table">
+        <thead>
+          <tr><th>组件</th><th>信任级别</th><th>边界</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rust 编辑器</td><td>可信内核代码</td><td>编译进发行版；没有稳定 Rust ABI。</td></tr>
+          <tr><td>Go 网关</td><td>可信本机服务</td><td>每会话启动；工作区路径约束和权限检查，不是插件沙箱。</td></tr>
+          <tr><td>插件宿主</td><td>不可信</td><td>独立进程；Landlock、seccomp、cgroup 和编辑器 RPC 代理。</td></tr>
+          <tr><td>LSP 服务器</td><td>受信任外部工具</td><td>不是 Anvil 沙箱内的插件。</td></tr>
+          <tr><td>控制 socket</td><td>同 UID 本地</td><td>不是跨用户认证边界。</td></tr>
+        </tbody>
+      </table>
+      <p>
+        有效签名不等于可信。发布者身份、权限审查、撤销和版本固定仍然需要；
+        不要因为包“已签名”就跳过同意。
+      </p>
+
+      <div class="av-note">
+        插件不在编辑器进程内加载。宿主启动需要委派的 cgroup v2 根；缺少时失败并
+        关闭，而不是无限制运行。
+      </div>
+
+      <h2>继续阅读</h2>
+      <ul class="av-link-list">
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/threat-model.md" target="_blank" rel="noopener">威胁模型 <small>网关、插件宿主、控制 socket 和 LSP</small></a></li>
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/adr/0021-plugin-isolation.md" target="_blank" rel="noopener">ADR-0021 插件隔离 <small>进程和沙箱边界</small></a></li>
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/adr/0058-sandbox-capability-profiles-and-trust-boundaries.md" target="_blank" rel="noopener">ADR-0058 沙箱能力与信任边界 <small>profile 和权限</small></a></li>
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/0.6.1-package-store-plan.md" target="_blank" rel="noopener">包存储计划 <small>安装、启用、禁用和升级</small></a></li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

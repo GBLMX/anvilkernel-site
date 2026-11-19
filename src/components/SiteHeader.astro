@@ -1,0 +1,28 @@
+---
+import { NAV, SITE } from "../data/site";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href.startsWith("/#") ? false : path === href || path.startsWith(`${href}/`);
+---
+
+<header class="av-nav">
+  <div class="av-wrap av-nav-inner">
+    <a class="av-brand" href="/" aria-label="Anvil 首页">
+      <img class="av-mark" src="/assets/anvil-icon.svg" width="30" height="30" alt="" />
+      <span>anvil <small>/ anvilkernel</small></span>
+    </a>
+    <nav class="av-links" aria-label="项目导航">
+      {NAV.map((item) => (
+        <a
+          href={item.href}
+          class:list={{ "av-nav-priority": item.href === "/install" }}
+          aria-current={isActive(item.href) ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a class="av-github" href={SITE.repo} target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>

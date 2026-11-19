@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="页面不存在" description="请求的页面不存在。" noindex>
+  <div class="av-wrap av-page">
+    <header class="av-page-hero">
+      <p class="av-eyebrow">404 · Not found</p>
+      <h1>这条路径<br />没有落地。</h1>
+      <p>页面可能已移动，或链接写错了。安装、文档和版本状态仍然可用。</p>
+      <div class="av-actions">
+        <a class="av-btn av-btn-primary" href="/install">安装</a>
+        <a class="av-btn" href="/docs">文档</a>
+        <a class="av-btn" href="/releases">发布</a>
+        <a class="av-btn" href="/">返回首页</a>
+      </div>
+    </header>
+  </div>
+</BaseLayout>

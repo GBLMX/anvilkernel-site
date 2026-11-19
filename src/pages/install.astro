@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../data/site";
+---
+
+<BaseLayout
+  title="安装"
+  description="从源码构建并安装 Anvil：依赖、标准版构建、发布布局、验证和卸载。"
+>
+  <div class="av-wrap av-page">
+    <header class="av-page-hero">
+      <p class="av-eyebrow">安装 · {SITE.phase}</p>
+      <h1>从源码开始。<br />没有安装包。</h1>
+      <p>
+        当前版本是 {SITE.version} 基线。Anvil 还没有官方二进制安装包或包管理器
+        仓库；请从源码构建，并把编辑器与五个伴随程序放在同一目录。
+      </p>
+      <div class="av-badges">
+        <span class="av-badge">Linux</span>
+        <span class="av-badge">Rust 1.88+</span>
+        <span class="av-badge">Go 1.26.11+</span>
+        <span class="av-badge">Landlock 5.13+</span>
+      </div>
+    </header>
+
+    <div class="av-prose">
+      <h2>1. 准备环境</h2>
+      <p>需要 Linux、UTF-8 locale、Rust 工具链和 Go。仓库会固定工具链版本。</p>
+      <ul>
+        <li>Rust 1.88 或更新版本；<code>rust-toolchain.toml</code> 固定仓库版本。</li>
+        <li>Go 1.26.11 或更新版本；<code>go.mod</code> 固定版本。</li>
+        <li>Landlock 需要 Linux 5.13 或更新内核。缺少 Landlock 时，受限功能会降级或拒绝启动。</li>
+        <li>语言服务器不随 Anvil 分发。按需把 <code>rust-analyzer</code>、<code>gopls</code>、<code>clangd</code> 等放到 <code>PATH</code>。</li>
+      </ul>
+
+      <h2>2. 构建</h2>
+      <p>在仓库根目录执行标准版构建：</p>
+      <pre class="av-code">git clone https://github.com/GBLMX/Anvil.git
+cd Anvil
+
+cargo build --release -p anvil-distro-standard -p anvil-ctl -p anvil-mcp -p anvil-plugin-host
+GOTOOLCHAIN=go1.26.11 go build -o target/release/anvil-gateway ./go/cmd/anvil-gateway
+GOTOOLCHAIN=go1.26.11 go build -o target/release/anvil-exec-runner ./go/cmd/anvil-exec-runner</pre>
+      <p>
+        默认组合是标准版 / Git-only。需要在本地启用全部官方模块和
+        web/C/C++ 语法时，使用 <code>--features full</code>。
+      </p>
+
+      <h2>3. 安装</h2>
+      <p>
+        推荐先生成自包含发布布局，再运行安装器。布局包含全部六个二进制、
+        官方插件源、桌面入口和图标。
+      </p>
+      <pre class="av-code">scripts/release-layout.sh "$PWD/dist/anvil"
+./dist/anvil/install.sh</pre>
+      <p>
+        安装器默认前缀是 <code>$HOME/.local</code>。它会替换随附包集合，并在存在
+        已签名包时运行 <code>anvil-gateway -install-bundled</code>；重复执行会原地升级。
+      </p>
+      <p>
+        如果手动复制，必须把 <code>anvil</code>、<code>anvil-ctl</code>、<code>anvil-mcp</code>、
+        <code>anvil-gateway</code>、<code>anvil-exec-runner</code>、<code>anvil-plugin-host</code>
+        放进同一目录。编辑器默认在自身旁边查找网关。
+      </p>
+
+      <h2>4. 验证</h2>
+      <pre class="av-code">export PATH="$HOME/.local/bin:$PATH"
+anvil --version
+anvil --help
+anvil doctor --profile installed
+anvil setup check
+anvil setup plan</pre>
+      <p>
+        <code>setup check</code> 与 <code>setup plan</code> 只读。<code>doctor</code> 检查完整发布布局、
+        locale、终端颜色能力、运行时/配置路径、Landlock 和语言服务器。
+      </p>
+      <p>打开一个工作区并确认基本操作：</p>
+      <pre class="av-code">cd ~/src/my-project
+anvil --workspace "$PWD"</pre>
+      <ul>
+        <li>编辑器能渲染，<code>:q</code> 能退出。</li>
+        <li><code>Space e</code> 打开文件树；打开和保存文件正常。</li>
+        <li><code>Space f</code> 列出工作区文件，预览后 Enter 打开。</li>
+        <li><code>:reconnect</code> 启动新网关；外部文件变化会刷新文件树。</li>
+      </ul>
+
+      <div class="av-note">
+        打开或保存提示网关不可用时，先确认六个二进制在同一目录，并且网关与
+        编辑器由同一用户启动。
+      </div>
+
+      <h2>终端与运行时边界</h2>
+      <ul>
+        <li>Kitty、foot、WezTerm 等支持增强键盘协议的终端可以使用完整按键；其他 UTF-8/真彩色终端通常可用，但这不是支持保证。</li>
+        <li>通过 SSH 或 tmux 时，<code>COLORTERM</code> 可能不会转发。使用 <code>anvil doctor --json</code> 检查，不要仅凭截图强制真彩色。</li>
+        <li>网关是每个编辑器会话的进程，不是全局守护进程或 systemd 服务。</li>
+        <li>网关负责工作区路径约束和 <code>fs.read</code>/<code>fs.write</code> 权限检查；它不是插件沙箱。</li>
+        <li>插件宿主需要委派的 cgroup v2 根；没有它时启动失败并关闭。插件不在编辑器进程内加载。</li>
+      </ul>
+
+      <h2>卸载</h2>
+      <pre class="av-code">rm "$HOME/.local/bin/anvil" \
+   "$HOME/.local/bin/anvil-ctl" \
+   "$HOME/.local/bin/anvil-mcp" \
+   "$HOME/.local/bin/anvil-gateway" \
+   "$HOME/.local/bin/anvil-exec-runner" \
+   "$HOME/.local/bin/anvil-plugin-host"</pre>
+      <p>
+        编辑器状态、工作区文件和语言服务器缓存不会被卸载器删除。需要时手动检查
+        <code>$XDG_CONFIG_HOME/anvil</code>、<code>$XDG_DATA_HOME/anvil</code> 和
+        <code>$XDG_STATE_HOME/anvil</code>。
+      </p>
+
+      <h2>继续阅读</h2>
+      <ul class="av-link-list">
+        <li><a href="/docs">文档入口 <small>快速开始、配置、LSP、插件与架构</small></a></li>
+        <li><a href="/releases">版本状态 <small>当前基线、Unreleased 与已知问题</small></a></li>
+        <li><a href={SITE.repo} target="_blank" rel="noopener">源码与完整 INSTALL.md ↗ <small>github.com/GBLMX/Anvil</small></a></li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

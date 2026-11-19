@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { RELEASES, SITE } from "../data/site";
+---
+
+<BaseLayout
+  title="发布"
+  description="Anvil 版本状态：0.6.0 基线、Unreleased、可用性、破坏性变更和已知问题。"
+>
+  <div class="av-wrap av-page">
+    <header class="av-page-hero">
+      <p class="av-eyebrow">发布 · {SITE.phase}</p>
+      <h1>版本冻结，<br />不是已发布。</h1>
+      <p>
+        当前公开基线是 {SITE.version}。0.7.x 的可选模块已经落地，但没有创建
+        Git tag 或 GitHub Release，也没有可下载的官方二进制。
+      </p>
+      <div class="av-badges">
+        <span class="av-badge">当前基线 {SITE.version}</span>
+        <span class="av-badge">源码构建优先</span>
+        <span class="av-badge">无官方二进制</span>
+        <span class="av-badge">Linux 优先</span>
+      </div>
+    </header>
+
+    <div class="av-prose">
+      <h2>版本状态</h2>
+      <table class="av-table">
+        <thead>
+          <tr><th>版本</th><th>状态</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          {RELEASES.map((release) => (
+            <tr>
+              <td><strong>{release.version}</strong></td>
+              <td>{release.label}</td>
+              <td>{release.detail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>可用性</h2>
+      <ul>
+        <li><strong>源码：</strong>可用；从仓库按 <a href="/install">安装文档</a> 构建。</li>
+        <li><strong>官方二进制：</strong>尚未发布。不要从第三方站点下载冒充的 Anvil 安装包。</li>
+        <li><strong>包管理器：</strong>尚未发布任何发行版包。</li>
+        <li><strong>签名发布：</strong>尚未建立。签名、来源证明和回滚策略完成前不会打开 marketplace。</li>
+      </ul>
+
+      <h2>破坏性变更与兼容性</h2>
+      <p>
+        pre-alpha 阶段不承诺跨版本兼容。命令、设置键、插件 API 和发布布局都可能
+        在未另发大版本的情况下调整；以 <code>CHANGELOG.md</code> 和对应 ADR 为准。
+      </p>
+      <ul>
+        <li>插件 API v1 已冻结，但仅覆盖当前文档化面；不要假设未文档化行为稳定。</li>
+        <li>模块契约仍在抽取；第三方发行版不应依赖标准版内部模块顺序。</li>
+        <li>发布布局可能变化；<code>anvil</code> 仍要求伴随程序在同一目录。</li>
+      </ul>
+
+      <h2>已知限制</h2>
+      <ul>
+        <li>仅优先支持 Linux；macOS 和 Windows 不是当前验收目标。</li>
+        <li>插件市场不可用；只支持本地安装，且没有 signed index、consent、revocation 或 provenance。</li>
+        <li>插件宿主需要委派的 cgroup v2 根，缺少时启动失败并关闭。</li>
+        <li>语言服务器不随发行版分发；需要自行安装并确保在 <code>PATH</code> 上。</li>
+        <li>性能基线来自单一参考机器和临时 17 核服务器；发布机器仍需 rebaseline。</li>
+        <li><code>scripts/ctl-smoke.sh</code> 的 <code>git-diff</code> 路径可能因本地网关策略返回
+          <code>gateway error -32002: policy denied</code>；这是环境/策略问题，不是已通过的证据。</li>
+      </ul>
+
+      <h2>发布前门槛</h2>
+      <p>以下条件全部满足前，不应创建 tag 或对外宣称稳定：</p>
+      <ul>
+        <li>发布 runner 通过全量测试和真实 TUI smoke。</li>
+        <li>性能基线在计划发布机器上重建。</li>
+        <li>签名、来源证明、插件索引和撤销路径可审计。</li>
+        <li>安装、升级、卸载和 404/站点部署 smoke 通过。</li>
+      </ul>
+
+      <h2>继续阅读</h2>
+      <ul class="av-link-list">
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG <small>已落地变更与 Unreleased</small></a></li>
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap <small>版本边界和未完成项</small></a></li>
+        <li><a href="https://github.com/GBLMX/Anvil/blob/main/docs/known-issues.md" target="_blank" rel="noopener">Known issues <small>已知问题和限制</small></a></li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

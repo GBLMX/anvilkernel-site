@@ -1,0 +1,20 @@
+---
+import { SITE } from "../data/site";
+
+interface Props {
+  icp?: string;
+}
+
+const { icp = "" } = Astro.props;
+---
+
+<footer class="av-footer">
+  <div class="av-wrap av-footer-inner">
+    <span>{SITE.name} · {SITE.phase} · {SITE.versionLabel}</span>
+    <span>
+      <a href={SITE.url}>{SITE.url.replace("https://", "")}</a>
+      {icp && <> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{icp}</a></>}
+      {" · "}<a href={SITE.repo} target="_blank" rel="noopener">GitHub</a>
+    </span>
+  </div>
+</footer>
