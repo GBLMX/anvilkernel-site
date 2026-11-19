@@ -256,6 +256,7 @@ a { color: inherit; }
   .av-links .av-github { margin-left: auto; }
   .av-hero h1 { font-size: 4rem; }
   .av-wrap { width: min(100% - 1.6rem, 1180px); }
+  .av-code-wrap .av-code { padding-top: 2.8rem; padding-right: 1.1rem; }
   .av-page { padding-top: 3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
