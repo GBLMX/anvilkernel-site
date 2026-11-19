@@ -71,9 +71,14 @@ if (!install.includes('data-copy="build-command"')) errors.push("install/index.h
 for (const file of html.filter((path) => relative(dist, path).startsWith("docs/"))) {
 	const name = relative(dist, file);
 	const text = readFileSync(file, "utf8");
+	const title = text.match(/<title>([^<]*)<\/title>/)?.[1]?.trim();
 	const description = text.match(/<meta name="description" content="([^"]*)"/)?.[1]?.trim();
 
+	if (!title) errors.push(`${name}: empty title`);
 	if (!description) errors.push(`${name}: empty meta description`);
+	if ((text.match(/<main\b[^>]*\bid="main"/g) ?? []).length !== 1) {
+		errors.push(`${name}: expected exactly one main#main`);
+	}
 	if (!/<link rel="canonical" href="https:\/\/anvilkernel\.com\/[^"]+"/.test(text)) {
 		errors.push(`${name}: missing absolute canonical`);
 	}
